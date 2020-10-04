@@ -58,9 +58,19 @@ int main() {
 
     Alpha_Beta_Filter AB_1 = Alpha_Beta_Filter();
     AB_1.setTau(0.9); // setting Tau parameter
+    AB_1.setAlphaBeta();
+
+    AB_1.init(signal[0]); // first xFiltered and xFiltered_dot
 
     std::vector<std::complex<double> > resultAlphaBeta;
+    /*
     AB_1.Filtration(signal, resultAlphaBeta);
+    WriteComplexSignalInFile(resultAlphaBeta, "AlphaBeta_Filter_result.bin"); // writing result to file
+    */
+    resultAlphaBeta.resize(signal.size(), std::complex<double> (0,0));
+    for (int j = 0; j < signal.size(); j++){
+        resultAlphaBeta[j] = AB_1.FiltrationElementwise(signal[j]);
+    }
     WriteComplexSignalInFile(resultAlphaBeta, "AlphaBeta_Filter_result.bin"); // writing result to file
     return 0;
 }

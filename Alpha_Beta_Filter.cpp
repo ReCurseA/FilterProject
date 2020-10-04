@@ -14,18 +14,41 @@ void Alpha_Beta_Filter::setTau(double T){
     Tau = T;
 }
 
+void Alpha_Beta_Filter::setAlphaBeta(){
+    alpha = pow(0.5, Tau);
+    beta = 8 - 4 * alpha - 8 * sqrt(1 - alpha);
+}
+
 double Alpha_Beta_Filter::getTau() {
     return Tau;
 }
 
+double Alpha_Beta_Filter::getAlpha() {
+    return alpha;
+}
+
+double Alpha_Beta_Filter::getBeta() {
+    return beta;
+}
+
+void Alpha_Beta_Filter::init(const std::complex<double> &inputFirstElement){
+    xFiltered = inputFirstElement;
+    xFiltered_dot = 0;
+}
+
+std::complex<double> Alpha_Beta_Filter::FiltrationElementwise(std::complex<double> &inputSignal) {
+    std::complex<double> forecast;
+    std::complex<double> err;
+
+    forecast = xFiltered + xFiltered_dot;
+    err = inputSignal - forecast;
+    xFiltered = forecast + alpha * err;
+    xFiltered_dot = xFiltered_dot + beta * err;
+    return xFiltered;
+}
+
 void Alpha_Beta_Filter::Filtration(const std::vector<std::complex<double>> &inputSignal, std::vector<std::complex<double>> &outputSignal)
 {
-    alpha = pow(1./2, Tau);
-    beta = 8 - 4 * alpha - 8 * sqrt(1 - alpha);
-
-    std::complex<double> xFiltered = inputSignal[0];
-    std::complex<double> xFiltered_dot = 0;
-
     outputSignal.resize(inputSignal.size(), std::complex<double> (0,0));
 
     std::vector<std::complex<double> > forecast;

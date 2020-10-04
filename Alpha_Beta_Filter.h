@@ -17,19 +17,19 @@ public:
 
     void setTau(double T);
 
-    void Alpha_Beta_Filter::setAlphaBeta();
-
     double getTau();
 
-    double Alpha_Beta_Filter::getAlpha();
+    double getAlpha();
 
-    double Alpha_Beta_Filter::getBeta();
+    double getBeta();
 
-    void Alpha_Beta_Filter::init(const std::complex<double> &inputFirstElement);
+    void init(const std::complex<double> &inputFirstElement);
 
-    std::complex<double> Alpha_Beta_Filter::FiltrationElementwise(std::complex<double> &inputSignal);
+    void reset();
 
-    void Filtration(const std::vector<std::complex<double> > &inputSignal, std::vector<std::complex<double> > &outputSignal);
+    // void Filtration(const std::vector<std::complex<double> > &inputSignal, std::vector<std::complex<double> > &outputSignal);
+
+    std::complex<double> Filtration(std::complex<double> &inputSignal);
 private:
     double Tau;
     double alpha;
@@ -37,6 +37,8 @@ private:
 
     std::complex<double> xFiltered;
     std::complex<double> xFiltered_dot;
+
+    void setAlphaBeta();
 };
 
 #endif //FILTER_ALPHA_BETA_FILTER_H

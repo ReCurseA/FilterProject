@@ -7,7 +7,11 @@
 #include <iostream>
 
 Alpha_Beta_Filter::Alpha_Beta_Filter() {
+    xFiltered = 0;
     xFiltered_dot = 0;
+    Tau = 0;
+    alpha = 0;
+    beta = 0;
 }
 
 Alpha_Beta_Filter::~Alpha_Beta_Filter() {}

@@ -15,12 +15,9 @@ FIR_Filter::FIR_Filter(const std::string &FileName)
 
 void FIR_Filter::Filtration(const std::vector<std::complex<double>> &inputSignal, std::vector<std::complex<double>> &outputSignal) {
     const int zero = 0;
-    int convSize = inputSignal.size() + filterData.size() - 1;
-    outputSignal.resize(convSize, std::complex<double> (0,0));
-    for (int n = 0; n < convSize; n++) {
-        int start = std::max(zero, (n + 1 - static_cast<int>(filterData.size())));
-        int end = std::min(n, static_cast<int>(inputSignal.size() - 1));
-        for (int m = start; m <= end; m++) {
+    outputSignal.resize(inputSignal.size(), std::complex<double> (0,0));
+    for (int n = 0; n < inputSignal.size(); n++) {
+        for (int m = std::max(zero, (n + 1 - static_cast<int>(filterData.size()))); m <= std::min(n, static_cast<int>(inputSignal.size() - 1)); m++) {
             outputSignal[n] += inputSignal[m] * filterData[n - m];
         }
     }
